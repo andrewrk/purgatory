@@ -59,11 +59,32 @@ chem.resources.on('ready', function () {
 
   var startDate = new Date();
 
+  var deathCount = 0;
+  var deathLabel = new chem.Label("", {
+    batch: batch,
+    pos: v(750, 509),
+    zOrder: 5,
+    font: "26px sans-serif",
+    fillStyle: "#ffffff",
+    textBaseline: 'middle',
+    textAlign: 'center',
+  });
+
+  var levelLabel = new chem.Label("", {
+    batch: batch,
+    pos: v(750, 322),
+    zOrder: 5,
+    font: "26px sans-serif",
+    fillStyle: "#ffffff",
+    textBaseline: 'middle',
+    textAlign: 'center',
+  });
+
   var timeLabel = new chem.Label("", {
     batch: batch,
     pos: v(749, 138),
     zOrder: 5,
-    font: "18px sans-serif",
+    font: "20px sans-serif",
     fillStyle: "#ffffff",
     textBaseline: 'middle',
     textAlign: 'center',
@@ -174,8 +195,9 @@ chem.resources.on('ready', function () {
       }
     });
 
-    // update time display
     timeLabel.text = formatTime(new Date() - startDate);
+    levelLabel.text = (levelIndex + 1).toString();
+    deathLabel.text = (deathCount).toString();
   });
   engine.on('draw', function (context) {
     if (gameOver) {
@@ -193,6 +215,7 @@ chem.resources.on('ready', function () {
     fpsLabel.draw(context);
   });
   function lose() {
+    deathCount += 1;
     startLevel();
   }
   function win() {
