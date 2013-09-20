@@ -16,7 +16,7 @@ chem.resources.on('ready', function () {
   var roomCenter = engine.size.scaled(0.5);
   var playerSprite = new chem.Sprite(ani.player, {
     batch: batch,
-    zOrder: 2,
+    zOrder: 3,
     pos: roomCenter.clone(),
   });
   var innerPlatform = new chem.Sprite(ani.inner_platform, {
@@ -31,13 +31,14 @@ chem.resources.on('ready', function () {
   });
   var speed = 2.4;
   var doorSpeed = Math.PI / 30; // radians
-  var roomRadius = 238;
+  var doorPosRadius = 242;
   var doorUnit = v.unit(Math.random() * 2 * Math.PI);
   var doorSprite = new chem.Sprite(ani.door, {
     batch: batch,
     zOrder: 2,
-    pos: roomCenter.plus(doorUnit.scaled(roomRadius)),
+    pos: roomCenter.plus(doorUnit.scaled(doorPosRadius)),
   });
+  var innerRadius = 207;
   var playerRadius = 14.5;
   engine.on('update', function (dt, dx) {
     var left = engine.buttonState(chem.button.KeyLeft) || engine.buttonState(chem.button.KeyA);
@@ -67,6 +68,15 @@ chem.resources.on('ready', function () {
       playerSprite.rotation = desiredVector.angle() + Math.PI / 2;
     }
     doorSprite.rotation = doorUnit.angle() + Math.PI / 2;
+
+    var posRelCenter = playerSprite.pos.minus(roomCenter);
+    var outVector = posRelCenter.normalized();
+    var outerPlayerPos = posRelCenter.plus(outVector.scaled(playerRadius));
+    if (outerPlayerPos.length() > innerRadius) {
+      var innerCirclePoint = outVector.scaled(innerRadius);
+      var correction = innerCirclePoint.minus(outerPlayerPos);
+      playerSprite.pos.add(correction);
+    }
 
   });
   engine.on('draw', function (context) {
