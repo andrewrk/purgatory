@@ -1,0 +1,5 @@
+The contents of this file are available here:
+
+    chem.resources.text['example.txt']
+
+This folder might be where you place level files, for example.
