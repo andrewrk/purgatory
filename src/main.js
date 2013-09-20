@@ -69,6 +69,12 @@ chem.resources.on('ready', function () {
     var up = engine.buttonState(chem.button.KeyUp) || engine.buttonState(chem.button.KeyW);
     var down = engine.buttonState(chem.button.KeyDown) || engine.buttonState(chem.button.KeyS);
 
+    var skip = engine.buttonJustPressed(chem.button.KeyN);
+
+    if(skip){
+      win();
+    }
+
     var desiredVector = v();
     if (left) {
       playerSprite.pos.x -= playerSpeed * dx;
@@ -221,30 +227,153 @@ function genLevels() {
     items: [],
   },
   {
+    //LEVEL 2
     doorAngle: 0,
     items: [
       {
+        type: "sawblade",
+        pos: v(180, 100),
+      },
+      {
+        type: "sawblade",
+        pos: v(125, -200),
+      },
+      {
+        type: "sawblade",
+        pos: v(90, -50),
+      },
+      {
+        type: "sawblade",
+        pos: v(-150, 85),
+      },
+      {
+        type: "sawblade",
+        pos: v(0,150),
+      },
+      {
+        type: "sawblade",
+        pos: v(-100,-100),
+      },
+      {
         type: "orbitblade",
-        radius: 75,
+        radius: 70,
         speedRatio: 1.1,
         startAngle: 0,
       },
       {
-        type: "sawblade",
-        pos: v(-100, 100),
+        type: "orbitblade",
+        radius: 180,
+        speedRatio: 1.4,
+        startAngle: Math.PI,
+      },
+	
+    ],
+  },
+  {
+    //LEVEL 3
+    doorAngle: 0,
+    items: [
+      {
+        type: "orbitblade",
+        radius: 50,
+        speedRatio: 1.0,
+        startAngle: 0,
       },
       {
-        type: "zombie",
-        pos: v(-100, 100),
+        type: "orbitblade",
+        radius: 80,
+        speedRatio: -1.5,
+        startAngle: Math.PI,
+      },
+      {
+        type: "orbitblade",
+        radius: 130,
+        speedRatio: 0.6,
+        startAngle: Math.PI/2,
+      },
+      {
+        type: "orbitblade",
+        radius: 170,
+        speedRatio: -2.0,
+        startAngle: 2*Math.PI,
+      },
+      {
+        type: "orbitblade",
+        radius: 210,
+        speedRatio: 3.0,
+        startAngle: 2*Math.PI/3,
       },
     ],
   },
   {
+    //LEVEL 4 - introduce zombies
     doorAngle: 0,
     items: [
       {
+        type: "zombie",
+        pos: v(210,0),
+      },
+      {
+        type: "zombie",
+        pos: v(20,180),
+      },
+      {
+        type: "zombie",
+        pos: v(-120,120),
+      },
+      {
+        type: "zombie",
+        pos: v(-140,-50),
+      },
+      {
+        type: "zombie",
+        pos: v(0,-200),
+      },
+      {
+        type: "zombie",
+        pos: v(180,-180),
+      },
+    ],
+  },
+  {
+    //LEVEL 5 - zombies + saws
+    doorAngle: 0,
+    items: [
+      {
+        type: "zombie",
+        pos: v(210,0),
+      },
+      {
+        type: "zombie",
+        pos: v(-100,130),
+      },
+      {
+        type: "zombie",
+        pos: v(-20,-175),
+      },
+      {
+        type: "orbitblade",
+        radius: 100,
+        speedRatio: 2.5,
+        startAngle: 0,
+      },
+      {
+        type: "orbitblade",
+        radius: 180,
+        speedRatio: -2.0,
+        startAngle: Math.PI,
+      },
+      {
         type: "sawblade",
-        pos: v(200, -100),
+        pos: v(180, 100),
+      },
+      {
+        type: "sawblade",
+        pos: v(125, -200),
+      },
+      {
+        type: "sawblade",
+        pos: v(90, -50),
       },
     ],
   },
