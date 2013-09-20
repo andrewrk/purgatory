@@ -149,7 +149,7 @@ chem.resources.on('ready', function () {
     fpsLabel.draw(context);
   });
   function lose() {
-    gameOver = true;
+    startLevel();
   }
   function win() {
     levelIndex += 1;
@@ -212,6 +212,10 @@ chem.resources.on('ready', function () {
 
 function genLevels() {
   return [
+  {
+    doorAngle: 0,
+    items: [],
+  },
   {
     doorAngle: 0,
     items: [
