@@ -30,13 +30,12 @@ chem.resources.on('ready', function () {
     pos: roomCenter.clone(),
   });
   var speed = 2.4;
-  var doorSpeed = Math.PI / 30; // radians
+  var doorSpeed = Math.PI / 240; // radians
   var doorPosRadius = 242;
-  var doorUnit = v.unit(Math.random() * 2 * Math.PI);
+  var doorAngle = Math.random() * 2 * Math.PI;
   var doorSprite = new chem.Sprite(ani.door, {
     batch: batch,
     zOrder: 2,
-    pos: roomCenter.plus(doorUnit.scaled(doorPosRadius)),
   });
   var innerRadius = 207;
   var playerRadius = 14.5;
@@ -67,7 +66,6 @@ chem.resources.on('ready', function () {
     if (desiredVector.lengthSqrd() !== 0) {
       playerSprite.rotation = desiredVector.angle() + Math.PI / 2;
     }
-    doorSprite.rotation = doorUnit.angle() + Math.PI / 2;
 
     var posRelCenter = playerSprite.pos.minus(roomCenter);
     var outVector = posRelCenter.normalized();
@@ -78,6 +76,10 @@ chem.resources.on('ready', function () {
       playerSprite.pos.add(correction);
     }
 
+    doorAngle = (doorAngle + doorSpeed) % (Math.PI * 2);
+    var doorUnit = v.unit(doorAngle);
+    doorSprite.pos = roomCenter.plus(doorUnit.scaled(doorPosRadius)),
+    doorSprite.rotation = doorUnit.angle() + Math.PI / 2;
   });
   engine.on('draw', function (context) {
     context.drawImage(bgImg, 100, 0);
