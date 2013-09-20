@@ -105,16 +105,14 @@ chem.resources.on('ready', function () {
   var yourTime;
 
   //Sound
-  //var bladeSfx = new Audio('sfx/saw.ogg');
-  //bladeSfx.loop = true;
-  //bladeSfx.play();
-  //bladeSfx.volume = 0;
-
-  ////Sound
-  //sawblade.sfx = new Audio('sfx/saw.ogg');
-  //sawblade.sfx.loop = true;
-  //sawblade.sfx.play();
-  //sawblade.sfx.volume = 0;
+  var sawSfx = new Audio('sfx/saw.ogg');
+  sawSfx.loop = true;
+  sawSfx.play();
+  sawSfx.volume = 0;
+  var zombieSfx = new Audio('sfx/zombie.ogg');
+  zombieSfx.loop = true;
+  zombieSfx.play();
+  zombieSfx.volume = 0;
 
 
   // level state
@@ -197,20 +195,26 @@ chem.resources.on('ready', function () {
         return;
       }
     });
+    sawSfx.volume = 0;
+    zombieSfx.volume = 0;
     orbitblades.forEach(function(blade) {
       blade.rotation += -0.05;
       blade.revolution += blade.speed;
       blade.pos = roomCenter.plus(v.unit(blade.revolution).scaled(blade.radius));
-      //var vol = (50 / blade.pos.distance(playerSprite.pos));
-      //if (vol > 1) vol = 1;
-      //if (vol < 0) vol = 0;
-      //blade.sfx.volume = vol;
+      var vol = (35 / blade.pos.distance(playerSprite.pos));
+      if (vol > 1) vol = 1;
+      if (vol < 0.25) vol = 0;
+      if (sawSfx.volume < vol) sawSfx.volume = vol;
       if (blade.pos.distance(playerSprite.pos) < playerRadius + sawRadius) {
         lose();
         return;
       }
     });
     zombies.forEach(function(zombie) {
+      var vol = (35 / zombie.pos.distance(playerSprite.pos));
+      if (vol > 1) vol = 1;
+      if (vol < 0.25) vol = 0;
+      if (zombieSfx.volume < vol) zombieSfx.volume = vol;
       if (zombie.pos.distance(playerSprite.pos) < playerRadius + zombieRadius) {
         lose();
         return;
@@ -259,10 +263,10 @@ chem.resources.on('ready', function () {
 
     sawblades.forEach(function(saw) {
       saw.rotation += -0.05;
-      //var vol = (50 / saw.pos.distance(playerSprite.pos));
-      //if (vol > 1) vol = 1;
-      //if (vol < 0) vol = 0;
-      //saw.sfx.volume = vol;
+      var vol = (30 / saw.pos.distance(playerSprite.pos));
+      if (vol > 1) vol = 1;
+      if (vol < 0.25) vol = 0;
+      if (sawSfx.volume < vol) sawSfx.volume = vol;
       if (saw.pos.distance(playerSprite.pos) < playerRadius + sawRadius) {
         lose();
         return;
