@@ -57,11 +57,13 @@ chem.resources.on('ready', function () {
 
   var zombieSpeed = 0.85;
 
+
   // level state
   var doorAngle;
   var sawblades = [];
   var zombies = [];
   var orbitblades = [];
+  var fakedoors = [];
 
   startLevel();
 
@@ -115,11 +117,22 @@ chem.resources.on('ready', function () {
     var doorUnit = v.unit(doorAngle);
     doorSprite.pos = roomCenter.plus(doorUnit.scaled(doorPosRadius)),
     doorSprite.rotation = doorUnit.angle() + Math.PI / 2;
-            
+
     outerPlatform.rotation = doorSprite.rotation;
 
+    fakedoors.forEach(function(door) {
+      door.revolution += doorSpeed;
+      var doorUnit = v.unit(door.revolution);
+      door.pos = roomCenter.plus(doorUnit.scaled(doorPosRadius));
+      door.rotation = doorUnit.angle() + Math.PI / 2;
+
+      if (door.pos.distance(playerSprite.pos) < playerRadius + doorRadius) {
+        door.setAnimation(ani.door_inactive);
+        return;
+      }
+    });
     orbitblades.forEach(function(blade) {
-      blade.rotation += -.05;
+      blade.rotation += -0.05;
       blade.revolution += blade.speed;
       blade.pos = roomCenter.plus(v.unit(blade.revolution).scaled(blade.radius));
       if (blade.pos.distance(playerSprite.pos) < playerRadius + sawRadius) {
@@ -143,7 +156,7 @@ chem.resources.on('ready', function () {
     }
 
     sawblades.forEach(function(saw) {
-      saw.rotation += -.05;
+      saw.rotation += -0.05;
       if (saw.pos.distance(playerSprite.pos) < playerRadius + sawRadius) {
         lose();
         return;
@@ -186,13 +199,23 @@ chem.resources.on('ready', function () {
     sawblades.forEach(deleteIt);
     zombies.forEach(deleteIt);
     orbitblades.forEach(deleteIt);
+    fakedoors.forEach(deleteIt);
 
     sawblades = [];
     zombies = [];
     orbitblades = [];
+    fakedoors = [];
 
     level.items.forEach(function(item) {
       switch (item.type) {
+        case 'fakedoor':
+          var door = new chem.Sprite(ani.door_active, {
+            batch: batch,
+            zOrder: 3,
+          });
+          door.revolution = item.angle;
+          fakedoors.push(door);
+          break;
         case 'orbitblade':
           var blade = new chem.Sprite(ani.trap_sawblade, {
             batch: batch,
@@ -232,7 +255,7 @@ chem.resources.on('ready', function () {
 function genLevels() {
   return [
   {
-    doorAngle: 0,
+    doorAngle: Math.PI,
     items: [],
   },
   {
@@ -275,7 +298,6 @@ function genLevels() {
         speedRatio: 1.4,
         startAngle: Math.PI,
       },
-	
     ],
   },
   {
@@ -386,7 +408,24 @@ function genLevels() {
       },
     ],
   },
-
+  // LEVEL 6 - introduce fake doors
+  {
+    doorAngle: Math.PI / 2,
+    items: [
+      {
+        type: "fakedoor",
+        angle: 0,
+      },
+      {
+        type: "fakedoor",
+        angle: Math.PI,
+      },
+      {
+        type: "fakedoor",
+        angle: 3 * Math.PI / 2,
+      },
+    ],
+  },
 
 
   ];
