@@ -129,6 +129,7 @@ chem.resources.on('ready', function () {
   engine.on('update', function (dt, dx) {
     if (startScreen) {
       if (engine.buttonJustPressed(chem.button.MouseLeft)) {
+        startDate = new Date();
         startScreen = false;
       }
     }
