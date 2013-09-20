@@ -38,5 +38,6 @@ exports.spritesheet = {
         "lava/lava_1.png"
       ]
     },
+    trap_sawblade: {},
   }
 };

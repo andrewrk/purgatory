@@ -36,7 +36,6 @@ chem.resources.on('ready', function () {
   var playerSpeed = 2.4;
   var doorSpeed = Math.PI / 240; // radians
   var doorPosRadius = 242;
-  var doorAngle;
   var doorSprite = new chem.Sprite(ani.door_active, {
     batch: batch,
     zOrder: 3,
@@ -44,6 +43,13 @@ chem.resources.on('ready', function () {
   var doorRadius = 40;
   var innerRadius = 207;
   var playerRadius = 14.5;
+  var levels = genLevels();
+  var levelIndex = 0;
+
+  // level state
+  var doorAngle;
+  var sawblades = [];
+  
   startLevel();
   engine.on('update', function (dt, dx) {
     var left = engine.buttonState(chem.button.KeyLeft) || engine.buttonState(chem.button.KeyA);
@@ -101,10 +107,53 @@ chem.resources.on('ready', function () {
     fpsLabel.draw(context);
   });
   function win() {
+    levelIndex += 1;
     startLevel();
   }
   function startLevel() {
     doorAngle = Math.random() * 2 * Math.PI;
     playerSprite.pos = roomCenter.clone();
+
+    sawblades.forEach(function(item) {
+      item.delete();
+    });
+    sawblades = [];
+    var level = levels[levelIndex];
+    level.items.forEach(function(item) {
+      sawblades.push(new chem.Sprite(ani.trap_sawblade, {
+        pos: item.pos.plus(roomCenter),
+        batch: batch,
+        zOrder: 4,
+      }));
+    });
   }
 });
+
+
+function genLevels() {
+  return [
+  {
+    items: [
+      {
+        type: "sawblade",
+        pos: v(100, 100),
+      },
+      {
+        type: "sawblade",
+        pos: v(-100, 100),
+      },
+    ],
+  },
+  {
+    items: [
+      {
+        type: "sawblade",
+        pos: v(200, -100),
+      },
+    ],
+  },
+
+
+
+  ];
+}
