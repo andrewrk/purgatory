@@ -17,10 +17,10 @@ chem.resources.on('ready', function () {
   });
   var speed = 2;
   engine.on('update', function (dt, dx) {
-    var left = engine.buttonState(chem.button.KeyLeft);
-    var right = engine.buttonState(chem.button.KeyRight);
-    var up = engine.buttonState(chem.button.KeyUp);
-    var down = engine.buttonState(chem.button.KeyDown);
+    var left = engine.buttonState(chem.button.KeyLeft) || engine.buttonState(chem.button.KeyA);
+    var right = engine.buttonState(chem.button.KeyRight) || engine.buttonState(chem.button.KeyD);
+    var up = engine.buttonState(chem.button.KeyUp) || engine.buttonState(chem.button.KeyW);
+    var down = engine.buttonState(chem.button.KeyDown) || engine.buttonState(chem.button.KeyS);
 
     if (left) playerSprite.pos.x -= speed * dx;
     if (right) playerSprite.pos.x += speed * dx;
