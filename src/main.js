@@ -61,10 +61,12 @@ chem.resources.on('ready', function () {
 
   var timeLabel = new chem.Label("", {
     batch: batch,
-    pos: v(100, 100),
+    pos: v(749, 138),
     zOrder: 5,
     font: "18px sans-serif",
     fillStyle: "#ffffff",
+    textBaseline: 'middle',
+    textAlign: 'center',
   });
 
   // level state
