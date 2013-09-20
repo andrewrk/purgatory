@@ -21,6 +21,8 @@ chem.resources.on('ready', function () {
     pos: v(100, 0),
   });
   var bgHud = chem.resources.images['hud_background.png'];
+  var bgStart = chem.resources.images['start_screen.png'];
+  var bgSuccess = chem.resources.images['success.png'];
   var roomCenter = engine.size.scaled(0.5);
   var playerSprite = new chem.Sprite(ani.player, {
     batch: batch,
@@ -55,6 +57,7 @@ chem.resources.on('ready', function () {
   var sawRadius = 35.5 * 0.8;
 
   var gameOver = false;
+  var startScreen = true;
 
   var zombieSpeed = 0.85;
 
@@ -116,6 +119,11 @@ chem.resources.on('ready', function () {
 
 //UPDATE
   engine.on('update', function (dt, dx) {
+    if (startScreen) {
+      if (engine.buttonJustPressed(chem.button.MouseLeft)) {
+        startScreen = false;
+      }
+    }
     if (gameOver) return;
 
     var left = engine.buttonState(chem.button.KeyLeft) || engine.buttonState(chem.button.KeyA);
@@ -256,9 +264,12 @@ chem.resources.on('ready', function () {
     deathLabel.text = (deathCount).toString();
   });
   engine.on('draw', function (context) {
+    if (startScreen) {
+      context.drawImage(bgStart, 0, 0);
+      return;
+    }
     if (gameOver) {
-      context.fillStyle = '#CE2200'
-      context.fillRect(0, 0, engine.size.x, engine.size.y);
+      context.drawImage(bgSuccess, 0, 0);
       return;
     }
 
