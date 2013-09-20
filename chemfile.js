@@ -12,5 +12,10 @@ exports.spritesheet = {
   },
   animations: {
     player: {},
+    door: {
+      anchor: {x: 39, y: 41},
+    },
+    inner_platform: {},
+    outer_platform: {},
   }
 };
