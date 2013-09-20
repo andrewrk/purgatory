@@ -56,6 +56,7 @@ chem.resources.on('ready', function () {
   var doorAngle;
   var sawblades = [];
   var zombies = [];
+  var orbitblades = [];
 
   startLevel();
   engine.on('update', function (dt, dx) {
@@ -102,6 +103,14 @@ chem.resources.on('ready', function () {
     doorSprite.pos = roomCenter.plus(doorUnit.scaled(doorPosRadius)),
     doorSprite.rotation = doorUnit.angle() + Math.PI / 2;
 
+    orbitblades.forEach(function(blade) {
+      blade.rotation += blade.speed;
+      blade.pos = roomCenter.plus(v.unit(blade.rotation).scaled(blade.radius));
+      if (blade.pos.distance(playerSprite.pos) < playerRadius + sawRadius) {
+        lose();
+        return;
+      }
+    });
     zombies.forEach(function(zombie) {
       if (zombie.pos.distance(playerSprite.pos) < playerRadius + zombieRadius) {
         lose();
@@ -152,18 +161,31 @@ chem.resources.on('ready', function () {
     startLevel();
   }
   function startLevel() {
-    doorAngle = Math.random() * 2 * Math.PI;
+    var level = levels[levelIndex];
+
+    doorAngle = level.doorAngle;
     playerSprite.pos = roomCenter.clone();
 
     sawblades.forEach(deleteIt);
     zombies.forEach(deleteIt);
+    orbitblades.forEach(deleteIt);
 
     sawblades = [];
     zombies = [];
+    orbitblades = [];
 
-    var level = levels[levelIndex];
     level.items.forEach(function(item) {
       switch (item.type) {
+        case 'orbitblade':
+          var blade = new chem.Sprite(ani.trap_sawblade, {
+            batch: batch,
+            rotation: item.startAngle,
+            zOrder: 4,
+          });
+          blade.radius = item.radius;
+          blade.speed = doorSpeed * item.speedRatio;
+          orbitblades.push(blade);
+          break;
         case 'sawblade':
           sawblades.push(new chem.Sprite(ani.trap_sawblade, {
             pos: item.pos.plus(roomCenter),
@@ -191,10 +213,13 @@ chem.resources.on('ready', function () {
 function genLevels() {
   return [
   {
+    doorAngle: 0,
     items: [
       {
-        type: "sawblade",
-        pos: v(100, 100),
+        type: "orbitblade",
+        radius: 75,
+        speedRatio: 1.1,
+        startAngle: 0,
       },
       {
         type: "sawblade",
@@ -207,6 +232,7 @@ function genLevels() {
     ],
   },
   {
+    doorAngle: 0,
     items: [
       {
         type: "sawblade",
