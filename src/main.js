@@ -84,6 +84,14 @@ chem.resources.on('ready', function () {
     textAlign: 'center',
   });
 
+  var winTimeLabel = new chem.Label("", {
+    pos: v(681, 524),
+    font: "20px sans-serif",
+    fillStyle: "#ffffff",
+    textBaseline: 'middle',
+    textAlign: 'center',
+  });
+
   var timeLabel = new chem.Label("", {
     batch: batchLabel,
     pos: v(749, 138),
@@ -93,6 +101,8 @@ chem.resources.on('ready', function () {
     textBaseline: 'middle',
     textAlign: 'center',
   });
+
+  var yourTime;
 
   //Sound
   //var bladeSfx = new Audio('sfx/saw.ogg');
@@ -270,6 +280,8 @@ chem.resources.on('ready', function () {
     }
     if (gameOver) {
       context.drawImage(bgSuccess, 0, 0);
+      winTimeLabel.text = formatTime(yourTime - startDate);
+      winTimeLabel.draw(context);
       return;
     }
 
@@ -288,6 +300,7 @@ chem.resources.on('ready', function () {
     startLevel();
   }
   function win() {
+    yourTime = new Date();
     levelIndex += 1;
     if (levelIndex >= levels.length) {
       // game over man
