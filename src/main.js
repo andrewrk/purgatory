@@ -26,27 +26,29 @@ chem.resources.on('ready', function () {
   var innerPlatform = new chem.Sprite(ani.inner_platform, {
     batch: batch,
     zOrder: 2,
+    scale: v(1.2, 1.2),
     pos: roomCenter.clone(),
   });
   var outerPlatform = new chem.Sprite(ani.outer_platform, {
     batch: batch,
     zOrder: 1,
+    scale: v(1.2, 1.2),
     pos: roomCenter.clone(),
   });
   var playerSpeed = 2.4;
   var doorSpeed = Math.PI / 240; // radians
-  var doorPosRadius = 242;
+  var doorPosRadius = 280;
   var doorSprite = new chem.Sprite(ani.door_active, {
     batch: batch,
     zOrder: 3,
   });
   var doorRadius = 40;
-  var innerRadius = 207;
+  var innerRadius = 207 * 1.2;
   var playerRadius = 14.5;
   var zombieRadius = 14.5;
   var levels = genLevels();
   var levelIndex = 0;
-  var sawRadius = 35.5;
+  var sawRadius = 35.5 * 0.8;
 
   var gameOver = false;
 
@@ -179,6 +181,7 @@ chem.resources.on('ready', function () {
         case 'orbitblade':
           var blade = new chem.Sprite(ani.trap_sawblade, {
             batch: batch,
+            scale: v(0.8, 0.8),
             rotation: item.startAngle,
             zOrder: 4,
           });
@@ -189,6 +192,7 @@ chem.resources.on('ready', function () {
         case 'sawblade':
           sawblades.push(new chem.Sprite(ani.trap_sawblade, {
             pos: item.pos.plus(roomCenter),
+            scale: v(0.8, 0.8),
             batch: batch,
             zOrder: 4,
           }));
