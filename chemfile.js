@@ -20,7 +20,9 @@ exports.spritesheet = {
     door_inactive: {
       anchor: {x: 39, y: 41},
     },
-    inner_platform: {},
+    inner_platform_plain: {},
+    inner_platform_bones: {},
+    inner_platform_webbed: {},
     outer_platform: {},
     lava: {
       delay: 0.50,

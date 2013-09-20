@@ -26,7 +26,7 @@ chem.resources.on('ready', function () {
     zOrder: 4,
     pos: roomCenter.clone(),
   });
-  var innerPlatform = new chem.Sprite(ani.inner_platform, {
+  var innerPlatform = new chem.Sprite(ani.inner_platform_plain, {
     batch: batch,
     zOrder: 2,
     scale: v(1.2, 1.2),
@@ -207,6 +207,8 @@ chem.resources.on('ready', function () {
 
     doorAngle = level.doorAngle;
     playerSprite.pos = roomCenter.clone();
+
+    innerPlatform.setAnimation(level.platformAni || ani.inner_platform_plain);
 
     sawblades.forEach(deleteIt);
     zombies.forEach(deleteIt);
@@ -389,6 +391,7 @@ function genLevels() {
   {
     //LEVEL 5 - zombies + saws
     doorAngle: 0,
+    platformAni: ani.inner_platform_bones,
     items: [
       {
         type: "zombie",
@@ -431,6 +434,7 @@ function genLevels() {
   // LEVEL 6 - introduce fake doors
   {
     doorAngle: Math.PI / 2,
+    platformAni: ani.inner_platform_webbed,
     items: [
       {
         type: "fakedoor",
