@@ -61,6 +61,8 @@ chem.resources.on('ready', function () {
   var orbitblades = [];
 
   startLevel();
+
+//UPDATE
   engine.on('update', function (dt, dx) {
     if (gameOver) return;
 
@@ -110,10 +112,13 @@ chem.resources.on('ready', function () {
     var doorUnit = v.unit(doorAngle);
     doorSprite.pos = roomCenter.plus(doorUnit.scaled(doorPosRadius)),
     doorSprite.rotation = doorUnit.angle() + Math.PI / 2;
+            
+    outerPlatform.rotation = doorSprite.rotation;
 
     orbitblades.forEach(function(blade) {
-      blade.rotation += blade.speed;
-      blade.pos = roomCenter.plus(v.unit(blade.rotation).scaled(blade.radius));
+      blade.rotation += -.05;
+      blade.revolution += blade.speed;
+      blade.pos = roomCenter.plus(v.unit(blade.revolution).scaled(blade.radius));
       if (blade.pos.distance(playerSprite.pos) < playerRadius + sawRadius) {
         lose();
         return;
@@ -135,6 +140,7 @@ chem.resources.on('ready', function () {
     }
 
     sawblades.forEach(function(saw) {
+      saw.rotation += -.05;
       if (saw.pos.distance(playerSprite.pos) < playerRadius + sawRadius) {
         lose();
         return;
@@ -188,9 +194,9 @@ chem.resources.on('ready', function () {
           var blade = new chem.Sprite(ani.trap_sawblade, {
             batch: batch,
             scale: v(0.8, 0.8),
-            rotation: item.startAngle,
             zOrder: 4,
           });
+          blade.revolution = item.startAngle;
           blade.radius = item.radius;
           blade.speed = doorSpeed * item.speedRatio;
           orbitblades.push(blade);
