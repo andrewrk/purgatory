@@ -11,9 +11,12 @@ chem.resources.on('ready', function () {
   var batch = new chem.Batch();
   var fpsLabel = engine.createFpsLabel();
 
+  var bgImg = chem.resources.images['background_floor.png'];
+  var bgHud = chem.resources.images['hud_background.png'];
   var roomCenter = engine.size.scaled(0.5);
   var playerSprite = new chem.Sprite(ani.player, {
     batch: batch,
+    zOrder: 2,
     pos: roomCenter.clone(),
   });
   var innerPlatform = new chem.Sprite(ani.inner_platform, {
@@ -49,9 +52,8 @@ chem.resources.on('ready', function () {
     doorSprite.rotation = doorUnit.angle() + Math.PI / 2;
   });
   engine.on('draw', function (context) {
-    // clear canvas to black
-    context.fillStyle = '#ff00ea'
-    context.fillRect(0, 0, engine.size.x, engine.size.y);
+    context.drawImage(bgImg, 100, 0);
+    context.drawImage(bgHud, 0, 0);
 
     // draw all sprites in batch
     batch.draw(context);
