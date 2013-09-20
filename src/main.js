@@ -57,6 +57,15 @@ chem.resources.on('ready', function () {
 
   var zombieSpeed = 0.85;
 
+  var startDate = new Date();
+
+  var timeLabel = new chem.Label("", {
+    batch: batch,
+    pos: v(100, 100),
+    zOrder: 5,
+    font: "18px sans-serif",
+    fillStyle: "#ffffff",
+  });
 
   // level state
   var doorAngle;
@@ -162,6 +171,9 @@ chem.resources.on('ready', function () {
         return;
       }
     });
+
+    // update time display
+    timeLabel.text = formatTime(new Date() - startDate);
   });
   engine.on('draw', function (context) {
     if (gameOver) {
@@ -251,6 +263,14 @@ chem.resources.on('ready', function () {
   }
 });
 
+function formatTime(ms) {
+  var sec = ms / 1000;
+  var min = Math.floor(sec / 60);
+  sec -= min * 60;
+  sec = Math.floor(sec);
+  if (sec < 10) sec = "0" + sec;
+  return min + ":" + sec;
+}
 
 function genLevels() {
   return [
