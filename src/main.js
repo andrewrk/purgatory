@@ -11,6 +11,9 @@ chem.resources.on('ready', function () {
   var batch = new chem.Batch();
   var fpsLabel = engine.createFpsLabel();
 
+  var bgMusic = new Audio('music/background.ogg');
+  bgMusic.loop = true;
+  bgMusic.play();
   var lava = new chem.Sprite(ani.lava, {
     batch: batch,
     zOrder: 0,
