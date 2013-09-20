@@ -551,8 +551,8 @@ function genLevels() {
     ],
   },
   {
-    //LEVEL 7 - DEM SWEEPING DOORSS
-    doorAngle:  Math.PI / 2,
+    //LEVEL 7 - DEM SWEEPING BLADES
+    doorAngle:  Math.PI,
     items: [
         {
             type: "sweepingblades",
@@ -580,12 +580,12 @@ function genLevels() {
         },
         
         {
-        type: "fakedoor",
-        angle: 0,
+            type: "fakedoor",
+            angle: 0,
         },
         {
             type: "fakedoor",
-            angle: Math.PI,
+            angle: Math.PI/2,
         },
         {
             type: "fakedoor",
@@ -594,6 +594,93 @@ function genLevels() {
     
     ],
   },
+  {
+    //LEVEL 8 - FINAL LEVEL
+    doorAngle:  Math.PI,
+    items: [
+        {
+            type: "sweepingblades",
+            pos: v(200,0),
+            speedRatio: .5,
+            startAngle: Math.PI,
+        },
+        {
+            type: "sweepingblades",
+            pos: v(0,200),
+            speedRatio: .5,
+            startAngle: 3*Math.PI/2,
+        },
+        {
+            type: "sweepingblades",
+            pos: v(-200,0),
+            speedRatio: .9,
+            startAngle: 0,
+        },
+        {
+            type: "sweepingblades",
+            pos: v(0,-200),
+            speedRatio: -.9,
+            startAngle: Math.PI/2,
+        },
+        
+        {
+            type: "fakedoor",
+            angle: 0,
+        },
+        {
+            type: "fakedoor",
+            angle: Math.PI/2,
+        },
+        {
+            type: "fakedoor",
+            angle: 3 * Math.PI / 2,
+        },
+        
+        {
+            type: "orbitblade",
+            radius: 100,
+            speedRatio: 3.0,
+            startAngle: 0,
+        },
+        {
+            type: "orbitblade",
+            radius: 180,
+            speedRatio: -2.5,
+            startAngle: Math.PI,
+        },
+        
+        
+        
+        {
+            type: "zombie",
+            pos: v(210,0),
+        },
+        {
+            type: "zombie",
+            pos: v(20,180),
+        },
+        {
+            type: "zombie",
+            pos: v(-150,120),
+        },
+        {
+            type: "zombie",
+            pos: v(-150,-100),
+        },
+        {
+            type: "zombie",
+            pos: v(0,-200),
+        },
+        {
+            type: "zombie",
+            pos: v(180,-180),
+        },
+        
+        
+    
+    ],
+  },
+
 
 
   ];
