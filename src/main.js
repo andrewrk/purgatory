@@ -96,6 +96,7 @@ chem.resources.on('ready', function () {
   var zombies = [];
   var orbitblades = [];
   var fakedoors = [];
+  var sweepingBlades = [];
 
   startLevel();
 
@@ -151,6 +152,7 @@ chem.resources.on('ready', function () {
     doorSprite.rotation = doorUnit.angle() + Math.PI / 2;
 
     outerPlatform.rotation = doorSprite.rotation;
+    
 
     fakedoors.forEach(function(door) {
       door.revolution += doorSpeed;
@@ -181,6 +183,38 @@ chem.resources.on('ready', function () {
       var unit = playerSprite.pos.minus(zombie.pos).normalized();
       zombie.pos.add(unit.scaled(zombieSpeed));
       zombie.rotation = unit.angle() + Math.PI / 2;
+    });
+    
+    sweepingBlades.forEach(function(blade) {
+        //blade.rotation = (blade.rotation - .005) % (Math.PI * 2);
+        blade.rotation = (blade.rotation + blade.speed) % (Math.PI*2);
+        
+        
+        var playerRelPos = playerSprite.pos.minus(blade.pos);
+        
+        
+        //rotate the vector AROUND the anchor
+        var rotatedPos = playerRelPos.rotated(v.unit(-blade.rotation));
+        //var testPos = blade.pos.plus(rotatedPos);
+        
+        //get the RECTANGLE TEST POINTS (min and max)
+            //rectangle dimensions: 213x43
+            //anchor point: 202x19
+        var min = v(-202,-19);
+        var max = v(0,24);
+        
+        //if(engine.buttonJustPressed(chem.button.KeyH)) debugger;
+        
+        //POINT-RECTANGLE TEST
+        if(rotatedPos.x > min.x && rotatedPos.x < max.x
+            && rotatedPos.y > min.y && rotatedPos.y < max.y)
+        {
+            //COLLISION SUCCESSFUL
+            lose();
+            return;
+        }
+
+        
     });
 
     if (doorSprite.pos.distance(playerSprite.pos) < playerRadius + doorRadius) {
@@ -242,11 +276,13 @@ chem.resources.on('ready', function () {
     zombies.forEach(deleteIt);
     orbitblades.forEach(deleteIt);
     fakedoors.forEach(deleteIt);
+    sweepingBlades.forEach(deleteIt);
 
     sawblades = [];
     zombies = [];
     orbitblades = [];
     fakedoors = [];
+    sweepingBlades = [];
 
     level.items.forEach(function(item) {
       switch (item.type) {
@@ -299,6 +335,17 @@ chem.resources.on('ready', function () {
             zOrder: 4,
           }));
           break;
+        case 'sweepingblades':
+            var blade = new chem.Sprite(ani.trap_sweeping_spikes,{
+                pos: item.pos.plus(roomCenter),
+                batch: batch,
+                zOrder: 4,
+                rotation: item.startAngle,
+            });
+            blade.speed = doorSpeed * item.speedRatio;
+            
+            sweepingBlades.push(blade);
+            break;
       }
     });
 
@@ -321,6 +368,7 @@ function genLevels() {
   return [
   {
     doorAngle: Math.PI,
+    //LEVEL 1 - get to the door
     items: [],
   },
   {
@@ -491,6 +539,50 @@ function genLevels() {
         type: "fakedoor",
         angle: 3 * Math.PI / 2,
       },
+    ],
+  },
+  {
+    //LEVEL 7 - DEM SWEEPING DOORSS
+    doorAngle:  Math.PI / 2,
+    items: [
+        {
+            type: "sweepingblades",
+            pos: v(-100,-100),
+            speedRatio: .4,
+            startAngle: Math.PI,
+        },
+        {
+            type: "sweepingblades",
+            pos: v(100,100),
+            speedRatio: .4,
+            startAngle: 0,
+        },
+        {
+            type: "sweepingblades",
+            pos: v(-180,20),
+            speedRatio: .6,
+            startAngle: Math.PI/2,
+        },
+        {
+            type: "sweepingblades",
+            pos: v(200,0),
+            speedRatio: -.6,
+            startAngle: 3*Math.PI/2,
+        },
+        
+        {
+        type: "fakedoor",
+        angle: 0,
+        },
+        {
+            type: "fakedoor",
+            angle: Math.PI,
+        },
+        {
+            type: "fakedoor",
+            angle: 3 * Math.PI / 2,
+        },
+    
     ],
   },
 

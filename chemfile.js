@@ -44,5 +44,8 @@ exports.spritesheet = {
     zombie: {
       anchor: {x: 40, y: 38},
     },
+    trap_sweeping_spikes: {
+      anchor: {x:202, y:19},
+    },
   }
 };
