@@ -45,13 +45,18 @@ chem.resources.on('ready', function () {
   var playerRadius = 14.5;
   var levels = genLevels();
   var levelIndex = 0;
+  var sawRadius = 35.5;
+
+  var gameOver = false;
 
   // level state
   var doorAngle;
   var sawblades = [];
-  
+
   startLevel();
   engine.on('update', function (dt, dx) {
+    if (gameOver) return;
+
     var left = engine.buttonState(chem.button.KeyLeft) || engine.buttonState(chem.button.KeyA);
     var right = engine.buttonState(chem.button.KeyRight) || engine.buttonState(chem.button.KeyD);
     var up = engine.buttonState(chem.button.KeyUp) || engine.buttonState(chem.button.KeyW);
@@ -95,9 +100,23 @@ chem.resources.on('ready', function () {
 
     if (doorSprite.pos.distance(playerSprite.pos) < playerRadius + doorRadius) {
       win();
+      return;
     }
+
+    sawblades.forEach(function(saw) {
+      if (saw.pos.distance(playerSprite.pos) < playerRadius + sawRadius) {
+        lose();
+        return;
+      }
+    });
   });
   engine.on('draw', function (context) {
+    if (gameOver) {
+      context.fillStyle = '#CE2200'
+      context.fillRect(0, 0, engine.size.x, engine.size.y);
+      return;
+    }
+
     context.drawImage(bgHud, 0, 0);
 
     // draw all sprites in batch
@@ -106,8 +125,16 @@ chem.resources.on('ready', function () {
     // draw a little fps counter in the corner
     fpsLabel.draw(context);
   });
+  function lose() {
+    gameOver = true;
+  }
   function win() {
     levelIndex += 1;
+    if (levelIndex >= levels.length) {
+      // game over man
+      gameOver = true;
+      return;
+    }
     startLevel();
   }
   function startLevel() {
