@@ -9,6 +9,7 @@ canvas.focus();
 
 chem.resources.on('ready', function () {
   var batch = new chem.Batch();
+  var batchLabel = new chem.Batch();
   var fpsLabel = engine.createFpsLabel();
 
   var bgMusic = new Audio('music/background.ogg');
@@ -61,7 +62,7 @@ chem.resources.on('ready', function () {
 
   var deathCount = 0;
   var deathLabel = new chem.Label("", {
-    batch: batch,
+    batch: batchLabel,
     pos: v(750, 509),
     zOrder: 5,
     font: "26px sans-serif",
@@ -71,7 +72,7 @@ chem.resources.on('ready', function () {
   });
 
   var levelLabel = new chem.Label("", {
-    batch: batch,
+    batch: batchLabel,
     pos: v(750, 322),
     zOrder: 5,
     font: "26px sans-serif",
@@ -81,7 +82,7 @@ chem.resources.on('ready', function () {
   });
 
   var timeLabel = new chem.Label("", {
-    batch: batch,
+    batch: batchLabel,
     pos: v(749, 138),
     zOrder: 5,
     font: "20px sans-serif",
@@ -247,6 +248,7 @@ chem.resources.on('ready', function () {
 
     context.drawImage(bgHud, 0, 0);
 
+    batchLabel.draw(context);
 
     // draw a little fps counter in the corner
     fpsLabel.draw(context);
