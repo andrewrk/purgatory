@@ -11,7 +11,9 @@ exports.spritesheet = {
     anchor: "center"
   },
   animations: {
-    player: {},
+    player: {
+      anchor: {x: 60, y: 104},
+    },
     door: {
       anchor: {x: 39, y: 41},
     },
