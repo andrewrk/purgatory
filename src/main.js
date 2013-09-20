@@ -206,10 +206,11 @@ chem.resources.on('ready', function () {
       return;
     }
 
-    context.drawImage(bgHud, 0, 0);
-
     // draw all sprites in batch
     batch.draw(context);
+
+    context.drawImage(bgHud, 0, 0);
+
 
     // draw a little fps counter in the corner
     fpsLabel.draw(context);
