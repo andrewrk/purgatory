@@ -39,5 +39,8 @@ exports.spritesheet = {
       ]
     },
     trap_sawblade: {},
+    zombie: {
+      anchor: {x: 40, y: 38},
+    },
   }
 };

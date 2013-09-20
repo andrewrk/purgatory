@@ -43,15 +43,19 @@ chem.resources.on('ready', function () {
   var doorRadius = 40;
   var innerRadius = 207;
   var playerRadius = 14.5;
+  var zombieRadius = 14.5;
   var levels = genLevels();
   var levelIndex = 0;
   var sawRadius = 35.5;
 
   var gameOver = false;
 
+  var zombieSpeed = 0.85;
+
   // level state
   var doorAngle;
   var sawblades = [];
+  var zombies = [];
 
   startLevel();
   engine.on('update', function (dt, dx) {
@@ -98,6 +102,16 @@ chem.resources.on('ready', function () {
     doorSprite.pos = roomCenter.plus(doorUnit.scaled(doorPosRadius)),
     doorSprite.rotation = doorUnit.angle() + Math.PI / 2;
 
+    zombies.forEach(function(zombie) {
+      if (zombie.pos.distance(playerSprite.pos) < playerRadius + zombieRadius) {
+        lose();
+        return;
+      }
+      var unit = playerSprite.pos.minus(zombie.pos).normalized();
+      zombie.pos.add(unit.scaled(zombieSpeed));
+      zombie.rotation = unit.angle() + Math.PI / 2;
+    });
+
     if (doorSprite.pos.distance(playerSprite.pos) < playerRadius + doorRadius) {
       win();
       return;
@@ -141,18 +155,35 @@ chem.resources.on('ready', function () {
     doorAngle = Math.random() * 2 * Math.PI;
     playerSprite.pos = roomCenter.clone();
 
-    sawblades.forEach(function(item) {
-      item.delete();
-    });
+    sawblades.forEach(deleteIt);
+    zombies.forEach(deleteIt);
+
     sawblades = [];
+    zombies = [];
+
     var level = levels[levelIndex];
     level.items.forEach(function(item) {
-      sawblades.push(new chem.Sprite(ani.trap_sawblade, {
-        pos: item.pos.plus(roomCenter),
-        batch: batch,
-        zOrder: 4,
-      }));
+      switch (item.type) {
+        case 'sawblade':
+          sawblades.push(new chem.Sprite(ani.trap_sawblade, {
+            pos: item.pos.plus(roomCenter),
+            batch: batch,
+            zOrder: 4,
+          }));
+          break;
+        case 'zombie':
+          zombies.push(new chem.Sprite(ani.zombie, {
+            pos: item.pos.plus(roomCenter),
+            batch: batch,
+            zOrder: 4,
+          }));
+          break;
+      }
     });
+
+    function deleteIt(item) {
+        item.delete();
+    }
   }
 });
 
@@ -167,6 +198,10 @@ function genLevels() {
       },
       {
         type: "sawblade",
+        pos: v(-100, 100),
+      },
+      {
+        type: "zombie",
         pos: v(-100, 100),
       },
     ],
