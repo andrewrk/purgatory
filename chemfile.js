@@ -14,10 +14,29 @@ exports.spritesheet = {
     player: {
       anchor: {x: 60, y: 104},
     },
-    door: {
+    door_active: {
+      anchor: {x: 39, y: 41},
+    },
+    door_inactive: {
       anchor: {x: 39, y: 41},
     },
     inner_platform: {},
     outer_platform: {},
+    lava: {
+      delay: 0.50,
+      anchor: 'topleft',
+      loop: true,
+      frames: [
+        "lava/lava_1.png",
+        "lava/lava_2.png",
+        "lava/lava_3.png",
+        "lava/lava_4.png",
+        "lava/lava_5.png",
+        "lava/lava_4.png",
+        "lava/lava_3.png",
+        "lava/lava_2.png",
+        "lava/lava_1.png"
+      ]
+    },
   }
 };

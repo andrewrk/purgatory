@@ -11,31 +11,35 @@ chem.resources.on('ready', function () {
   var batch = new chem.Batch();
   var fpsLabel = engine.createFpsLabel();
 
-  var bgImg = chem.resources.images['background_floor.png'];
+  var lava = new chem.Sprite(ani.lava, {
+    batch: batch,
+    zOrder: 0,
+    pos: v(100, 0),
+  });
   var bgHud = chem.resources.images['hud_background.png'];
   var roomCenter = engine.size.scaled(0.5);
   var playerSprite = new chem.Sprite(ani.player, {
     batch: batch,
-    zOrder: 3,
+    zOrder: 4,
     pos: roomCenter.clone(),
   });
   var innerPlatform = new chem.Sprite(ani.inner_platform, {
     batch: batch,
-    zOrder: 1,
+    zOrder: 2,
     pos: roomCenter.clone(),
   });
   var outerPlatform = new chem.Sprite(ani.outer_platform, {
     batch: batch,
-    zOrder: 0,
+    zOrder: 1,
     pos: roomCenter.clone(),
   });
   var playerSpeed = 2.4;
   var doorSpeed = Math.PI / 240; // radians
   var doorPosRadius = 242;
   var doorAngle;
-  var doorSprite = new chem.Sprite(ani.door, {
+  var doorSprite = new chem.Sprite(ani.door_active, {
     batch: batch,
-    zOrder: 2,
+    zOrder: 3,
   });
   var doorRadius = 40;
   var innerRadius = 207;
@@ -88,7 +92,6 @@ chem.resources.on('ready', function () {
     }
   });
   engine.on('draw', function (context) {
-    context.drawImage(bgImg, 100, 0);
     context.drawImage(bgHud, 0, 0);
 
     // draw all sprites in batch
