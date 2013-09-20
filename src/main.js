@@ -167,6 +167,7 @@ chem.resources.on('ready', function () {
       blade.rotation += -0.05;
       blade.revolution += blade.speed;
       blade.pos = roomCenter.plus(v.unit(blade.revolution).scaled(blade.radius));
+      blade.sfx.volume = 1 - (100 / saw.pos.distance(playerSprite.pos));
       if (blade.pos.distance(playerSprite.pos) < playerRadius + sawRadius) {
         lose();
         return;
@@ -189,6 +190,7 @@ chem.resources.on('ready', function () {
 
     sawblades.forEach(function(saw) {
       saw.rotation += -0.05;
+      saw.sfx.volume = 1 - (100 / saw.pos.distance(playerSprite.pos));
       if (saw.pos.distance(playerSprite.pos) < playerRadius + sawRadius) {
         lose();
         return;
@@ -265,15 +267,30 @@ chem.resources.on('ready', function () {
           blade.revolution = item.startAngle;
           blade.radius = item.radius;
           blade.speed = doorSpeed * item.speedRatio;
+
+          //Sound
+          blade.sfx = new Audio('sfx/saw.ogg');
+          blade.sfx.loop = true;
+          blade.sfx.play();
+          blade.sfx.volume = 0;
+
           orbitblades.push(blade);
           break;
         case 'sawblade':
-          sawblades.push(new chem.Sprite(ani.trap_sawblade, {
+          var sawblade = new chem.Sprite(ani.trap_sawblade, {
             pos: item.pos.plus(roomCenter),
             scale: v(0.8, 0.8),
             batch: batch,
             zOrder: 4,
-          }));
+          });
+
+          //Sound
+          sawblade.sfx = new Audio('sfx/saw.ogg');
+          sawblade.sfx.loop = true;
+          sawblade.sfx.play();
+          sawblade.sfx.volume = 0;
+
+          sawblades.push(sawblade);
           break;
         case 'zombie':
           zombies.push(new chem.Sprite(ani.zombie, {
