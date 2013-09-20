@@ -63,7 +63,9 @@ chem.resources.on('ready', function () {
       desiredVector.add(v.unit(Math.PI / 2));
     }
 
-    playerSprite.rotation = desiredVector.angle() + Math.PI / 2;
+    if (desiredVector.lengthSqrd() !== 0) {
+      playerSprite.rotation = desiredVector.angle() + Math.PI / 2;
+    }
     doorSprite.rotation = doorUnit.angle() + Math.PI / 2;
 
   });
