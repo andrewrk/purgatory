@@ -29,16 +29,18 @@ chem.resources.on('ready', function () {
     zOrder: 0,
     pos: roomCenter.clone(),
   });
-  var speed = 2.4;
+  var playerSpeed = 2.4;
   var doorSpeed = Math.PI / 240; // radians
   var doorPosRadius = 242;
-  var doorAngle = Math.random() * 2 * Math.PI;
+  var doorAngle;
   var doorSprite = new chem.Sprite(ani.door, {
     batch: batch,
     zOrder: 2,
   });
+  var doorRadius = 40;
   var innerRadius = 207;
   var playerRadius = 14.5;
+  startLevel();
   engine.on('update', function (dt, dx) {
     var left = engine.buttonState(chem.button.KeyLeft) || engine.buttonState(chem.button.KeyA);
     var right = engine.buttonState(chem.button.KeyRight) || engine.buttonState(chem.button.KeyD);
@@ -47,19 +49,19 @@ chem.resources.on('ready', function () {
 
     var desiredVector = v();
     if (left) {
-      playerSprite.pos.x -= speed * dx;
+      playerSprite.pos.x -= playerSpeed * dx;
       desiredVector.add(v.unit(Math.PI));
     }
     if (right) {
-      playerSprite.pos.x += speed * dx;
+      playerSprite.pos.x += playerSpeed * dx;
       desiredVector.add(v.unit(0));
     }
     if (up) {
-      playerSprite.pos.y -= speed * dx;
+      playerSprite.pos.y -= playerSpeed * dx;
       desiredVector.add(v.unit(3 * Math.PI / 2));
     }
     if (down) {
-      playerSprite.pos.y += speed * dx;
+      playerSprite.pos.y += playerSpeed * dx;
       desiredVector.add(v.unit(Math.PI / 2));
     }
 
@@ -80,6 +82,10 @@ chem.resources.on('ready', function () {
     var doorUnit = v.unit(doorAngle);
     doorSprite.pos = roomCenter.plus(doorUnit.scaled(doorPosRadius)),
     doorSprite.rotation = doorUnit.angle() + Math.PI / 2;
+
+    if (doorSprite.pos.distance(playerSprite.pos) < playerRadius + doorRadius) {
+      win();
+    }
   });
   engine.on('draw', function (context) {
     context.drawImage(bgImg, 100, 0);
@@ -91,4 +97,11 @@ chem.resources.on('ready', function () {
     // draw a little fps counter in the corner
     fpsLabel.draw(context);
   });
+  function win() {
+    startLevel();
+  }
+  function startLevel() {
+    doorAngle = Math.random() * 2 * Math.PI;
+    playerSprite.pos = roomCenter.clone();
+  }
 });
