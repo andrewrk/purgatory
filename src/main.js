@@ -91,6 +91,19 @@ chem.resources.on('ready', function () {
     textAlign: 'center',
   });
 
+  //Sound
+  //var bladeSfx = new Audio('sfx/saw.ogg');
+  //bladeSfx.loop = true;
+  //bladeSfx.play();
+  //bladeSfx.volume = 0;
+
+  ////Sound
+  //sawblade.sfx = new Audio('sfx/saw.ogg');
+  //sawblade.sfx.loop = true;
+  //sawblade.sfx.play();
+  //sawblade.sfx.volume = 0;
+
+
   // level state
   var doorAngle;
   var sawblades = [];
@@ -170,7 +183,10 @@ chem.resources.on('ready', function () {
       blade.rotation += -0.05;
       blade.revolution += blade.speed;
       blade.pos = roomCenter.plus(v.unit(blade.revolution).scaled(blade.radius));
-      blade.sfx.volume = 1 - (100 / saw.pos.distance(playerSprite.pos));
+      //var vol = (50 / blade.pos.distance(playerSprite.pos));
+      //if (vol > 1) vol = 1;
+      //if (vol < 0) vol = 0;
+      //blade.sfx.volume = vol;
       if (blade.pos.distance(playerSprite.pos) < playerRadius + sawRadius) {
         lose();
         return;
@@ -225,7 +241,10 @@ chem.resources.on('ready', function () {
 
     sawblades.forEach(function(saw) {
       saw.rotation += -0.05;
-      saw.sfx.volume = 1 - (100 / saw.pos.distance(playerSprite.pos));
+      //var vol = (50 / saw.pos.distance(playerSprite.pos));
+      //if (vol > 1) vol = 1;
+      //if (vol < 0) vol = 0;
+      //saw.sfx.volume = vol;
       if (saw.pos.distance(playerSprite.pos) < playerRadius + sawRadius) {
         lose();
         return;
@@ -306,12 +325,6 @@ chem.resources.on('ready', function () {
           blade.radius = item.radius;
           blade.speed = doorSpeed * item.speedRatio;
 
-          //Sound
-          blade.sfx = new Audio('sfx/saw.ogg');
-          blade.sfx.loop = true;
-          blade.sfx.play();
-          blade.sfx.volume = 0;
-
           orbitblades.push(blade);
           break;
         case 'sawblade':
@@ -321,12 +334,6 @@ chem.resources.on('ready', function () {
             batch: batch,
             zOrder: 4,
           });
-
-          //Sound
-          sawblade.sfx = new Audio('sfx/saw.ogg');
-          sawblade.sfx.loop = true;
-          sawblade.sfx.play();
-          sawblade.sfx.volume = 0;
 
           sawblades.push(sawblade);
           break;
