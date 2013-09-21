@@ -1,9 +1,13 @@
 {
-  "name": "circle-game",
+  "name": "purgatory-game",
   "version": "0.0.0",
-  "description": "game prototype using chem game engine",
+  "description": "6-hour game jam about escaping hell",
   "scripts": {
     "dev": "npm install && chem dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/superjoe30/purgatory"
   },
   "dependencies": {
     "chem-cli": "~1.0.10",
