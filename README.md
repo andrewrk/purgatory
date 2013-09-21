@@ -7,11 +7,11 @@
 
 ## Credits
 
- * Rohit Crasta (Designer/Programmer)
-   - http://www.rohitcrasta.com
- * Andrew Kelley (Designer/Programmer)
+ * Andrew Kelley (Lead Programmer)
    - http://andrewkelley.me
- * Anthony Vinh Nguyen (Artist)
+ * Rohit Crasta (Programmer/Level Designer)
+   - http://www.rohitcrasta.com
+ * Anthony Vinh Nguyen (Art)
    - http://www.avn-online.com
- * David Wallin (Artist/Programmer/Designer/Sound)
+ * David Wallin (Sound Design)
    - http://davidwallin.net
