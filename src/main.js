@@ -3,6 +3,7 @@ var v = chem.vec2d;
 var ani = chem.resources.animations;
 var canvas = document.getElementById("game");
 var engine = new chem.Engine(canvas);
+engine.buttonCaptureExceptions[chem.button.KeyF5] = true;
 engine.showLoadProgressBar();
 engine.start();
 canvas.focus();
