@@ -5,6 +5,10 @@
 
 [play in your browser](http://s3.amazonaws.com/superjoe/temp/purgatory/index.html)
 
+## Screenshot
+
+![](https://raw.github.com/superjoe30/purgatory/master/public/img/start_screen.png)
+
 ## Credits
 
  * Andrew Kelley (Lead Programmer)
